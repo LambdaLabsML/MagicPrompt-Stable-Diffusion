@@ -43,7 +43,7 @@ for x in range(8):
 
 title = "Stable Diffusion Prompt Generator"
 description = 'This is a demo of the model series: "MagicPrompt", in this case, aimed at: Stable Diffusion. To use it, simply submit your text or click on one of the examples.<b><br><br>To learn more about the model, go to the link: https://huggingface.co/Gustavosta/MagicPrompt-Stable-Diffusion<br>'
-article = "<div><center><img src='https://visitor-badge.glitch.me/badge?page_id=magicprompt_Stable Diffusion' alt='visitor badge'></center></div>"
+article = ""
 
 grad.Interface(fn=generate,
                inputs=txt,
