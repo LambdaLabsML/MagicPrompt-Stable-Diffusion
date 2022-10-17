@@ -3,18 +3,19 @@ import gradio as grad, random, re
 
 
 gpt2_pipe = pipeline('text-generation', model='Gustavosta/MagicPrompt-Stable-Diffusion', tokenizer='gpt2')
-examples = ['Secret Girl', 'The Toad and the Peter Pan', 'Space is Haunting', 'The Journey At', 'The She Wrath', 'Monster-God Wrath', 'Embracing the Grace']
+with open("ideas.txt", "r") as f:
+    line = f.readlines()
 
 
 def generate(starting_text):
-    seed = random.randint(100, 100000)
+    seed = random.randint(100, 1000000)
     set_seed(seed)
 
     if starting_text == "":
-        starting_text: str = random.choice(examples).lower().capitalize()
+        starting_text: str = line[random.randrange(0, len(line))].replace("\n", "").lower().capitalize()
         starting_text: str = re.sub(r"[,:\-–.!;?_]", '', starting_text)
 
-    response = gpt2_pipe(starting_text, max_length=(len(starting_text) + random.randint(50, 80)), num_return_sequences=4)
+    response = gpt2_pipe(starting_text, max_length=(len(starting_text) + random.randint(60, 90)), num_return_sequences=4)
     response_list = []
     for x in response:
         resp = x['generated_text'].strip()
@@ -31,6 +32,10 @@ def generate(starting_text):
 
 txt = grad.Textbox(lines=1, label="Initial Text", placeholder="English Text here")
 out = grad.Textbox(lines=4, label="Generated Prompts")
+
+examples = []
+for x in range(8):
+    examples.append(line[random.randrange(0, len(line))].replace("\n", "").lower().capitalize())
 
 title = "Stable Diffusion Prompt Generator"
 description = 'This is a demo of the model series: "MagicPrompt", in this case, aimed at: "Stable Diffusion". To use it, simply submit your text or click on one of the examples. To learn more about the model, [click here](https://huggingface.co/Gustavosta/MagicPrompt-Stable-Diffusion).<br>'
